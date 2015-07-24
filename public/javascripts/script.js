@@ -2,8 +2,8 @@ var gameStatus = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
 var canvas;
 var width = 500;
 var height = 500;
-var cellWidth = width / 3;
-var cellHeight = height / 3;
+var cellWidth = width / 3; //width for one cell
+var cellHeight = height / 3; //height for one cell
 var currentPlayer;
 
 window.onload = function () {
@@ -12,14 +12,15 @@ window.onload = function () {
     canvas.width = width;
     canvas.height = height;
     canvas.onclick = onClick;
-    newGame();
+    newGame(); //clear board + draw board
     currentPlayer = 1; // x
 };
 
+//clear board + draw new board
 function newGame() {
     context.clearRect(0, 0, width, height); //clears board
     drawGameBoard(); //draws new game board
-    drawMoves(); //draw moves
+    drawMoves();
 }
 
 function drawGameBoard() {
@@ -64,28 +65,27 @@ function drawY(cellX, cellY) {
 function drawMoves() {
     for (var i = 0; i <= 2; i++) {
         for (var j = 0; j <= 2; j++) {
-            var cell = gameStatus[i][j];
-            if (cell == 1) {
-              drawX(i, j);
-            }
-            else if (cell == 2) {
-              drawY(i, j);
-            }
+          if (gameStatus[i][j] == 1) {
+            drawX(i, j);
+          }
+          else if (gameStatus[i][j] == 2) {
+            drawY(i, j);
+          }
         }
     }
 }
 
 //on click, run this:
-function onClick(e) {
-    var mouseCoordinate = findMouse(e); //find mouse
+function onClick(event) {
+    var mouseCoordinate = findMouse(event); //find mouse
     var cell = mouseOnCell(mouseCoordinate); //find cell mouse is oin
     checkMove(cell); //new game or check for winner
 }
 
-// find mouse relative to canvas
-function findMouse(e) {
-    var mouseX = e.pageX - canvas.offsetLeft;
-    var mouseY = e.pageY - canvas.offsetTop;
+// find mouse relative to canvas from them internets
+function findMouse(event) {
+    var mouseX = event.pageX - canvas.offsetLeft;
+    var mouseY = event.pageY - canvas.offsetTop;
     return { x: mouseX, y: mouseY };
 }
 
